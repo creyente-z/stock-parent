@@ -31,6 +31,42 @@
         from stock_market_index_info
         where  id = #{id,jdbcType=BIGINT} 
     </select>
+    <select id="getMarketInfo" resultType="com.ming.stock.pojo.domain.InnerMarketDomain">
+        SELECT
+        market_code AS code,
+        market_name AS name,
+        open_point AS openPoint,
+        cur_point AS curPoint,
+        pre_close_point AS preClosePoint,
+        trade_amount AS tradeAmt,
+        trade_volume AS tradeVol,
+        cur_point-pre_close_point AS upDown,
+        (cur_point-pre_close_point)/pre_close_point AS rose,
+        (max_point-min_point)/pre_close_point AS amplitude,
+        cur_time AS curTime
+        FROM stock_market_index_info
+        WHERE cur_time = #{curDate}
+        AND market_code IN
+        <foreach collection="marketCodes" item="mCode" open="(" separator="," close=")">
+            #{mCode}
+        </foreach>
+    </select>
+    <select id="getSumAmtInfo" resultType="map">
+        SELECT
+            DATE_FORMAT(cur_time,'%Y%m%d%H%i') as time,
+	        SUM(trade_amount) as count
+        FROM
+            stock_market_index_info
+        WHERE
+            cur_time BETWEEN #{tStartDate}
+          AND #{tEndDate}
+          AND market_code IN
+        <foreach collection="inner" item="mCode" open="(" separator="," close=")">
+            #{mCode}
+        </foreach>
+        GROUP BY cur_time
+        ORDER BY cur_time asc;
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_market_index_info
@@ -46,6 +82,21 @@
         ,#{preClosePoint,jdbcType=DECIMAL},#{openPoint,jdbcType=DECIMAL},#{curPoint,jdbcType=DECIMAL}
         ,#{minPoint,jdbcType=DECIMAL},#{maxPoint,jdbcType=DECIMAL},#{tradeAmount,jdbcType=BIGINT}
         ,#{tradeVolume,jdbcType=DECIMAL},#{curTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertBatch">
+        insert into stock_market_index_info
+        ( id,market_code,market_name
+        ,pre_close_point,open_point,cur_point
+        ,min_point,max_point,trade_amount
+        ,trade_volume,cur_time)
+        values
+            <foreach collection="infos" item="info" separator=",">
+                (#{info.id,jdbcType=BIGINT},#{info.marketCode,jdbcType=CHAR},#{info.marketName,jdbcType=VARCHAR}
+                ,#{info.preClosePoint,jdbcType=DECIMAL},#{info.openPoint,jdbcType=DECIMAL},#{info.curPoint,jdbcType=DECIMAL}
+                ,#{info.minPoint,jdbcType=DECIMAL},#{info.maxPoint,jdbcType=DECIMAL},#{info.tradeAmount,jdbcType=BIGINT}
+                ,#{info.tradeVolume,jdbcType=DECIMAL},#{info.curTime,jdbcType=TIMESTAMP})
+            </foreach>
+
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ming.stock.pojo.entity.StockMarketIndexInfo" useGeneratedKeys="true">
         insert into stock_market_index_info

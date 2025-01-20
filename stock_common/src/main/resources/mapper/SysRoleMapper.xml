@@ -26,11 +26,32 @@
         from sys_role
         where  id = #{id,jdbcType=BIGINT} 
     </select>
+    <select id="selectAll" resultType="com.ming.stock.pojo.entity.SysRole">
+        select <include refid="Base_Column_List" />
+        from sys_role
+        where deleted=1
+    </select>
+    <select id="getRoleByUserId" resultMap="BaseResultMap">
+        SELECT
+            r.*
+        FROM
+            sys_user_role AS ur,
+            sys_role AS r
+        WHERE
+            ur.role_id = r.id
+          AND ur.user_id = #{userId}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_role
         where  id = #{id,jdbcType=BIGINT} 
     </delete>
+    <update id="deleteRole">
+        update sys_role
+        set deleted=0,
+            update_time=now()
+        where id=#{roleId}
+    </update>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ming.stock.pojo.entity.SysRole" useGeneratedKeys="true">
         insert into sys_role
         ( id,name,description
@@ -60,6 +81,12 @@
                 <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
                 <if test="deleted != null">#{deleted,jdbcType=TINYINT},</if>
         </trim>
+    </insert>
+    <insert id="addRole">
+        insert into sys_role
+        ( id,name,description
+        ,create_time)
+        values (#{role.id,jdbcType=BIGINT},#{role.name,jdbcType=VARCHAR},#{role.description,jdbcType=VARCHAR},now())
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ming.stock.pojo.entity.SysRole">
         update sys_role
@@ -95,5 +122,10 @@
             update_time =  #{updateTime,jdbcType=TIMESTAMP},
             deleted =  #{deleted,jdbcType=TINYINT}
         where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updataRole">
+        update sys_role
+        set status = #{status}
+        where id = #{roleId};
     </update>
 </mapper>

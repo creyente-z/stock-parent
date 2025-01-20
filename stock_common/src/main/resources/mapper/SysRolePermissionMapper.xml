@@ -22,10 +22,31 @@
         from sys_role_permission
         where  id = #{id,jdbcType=BIGINT} 
     </select>
+    <select id="getPermsByRoleId" resultType="java.lang.Long">
+        select permission_id
+        from sys_role_permission
+        where role_id=#{roleId}
+    </select>
+    <select id="getPermissionIdsByRoleId" resultType="java.lang.String">
+        SELECT
+            rp.permission_id
+        FROM
+            sys_role_permission AS rp
+        WHERE
+            rp.role_id = #{roleId}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_role_permission
         where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <delete id="deleteByRoleId">
+        delete
+        from sys_role_permission
+        where role_id=#{id}
+    </delete>
+    <delete id="deleteByPermissionId">
+        DELETE FROM sys_role_permission WHERE permission_id=#{permissionId}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ming.stock.pojo.entity.SysRolePermission" useGeneratedKeys="true">
         insert into sys_role_permission
@@ -48,6 +69,25 @@
                 <if test="permissionId != null">#{permissionId,jdbcType=BIGINT},</if>
                 <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
         </trim>
+    </insert>
+    <insert id="insertPerms">
+        insert into sys_role_permission
+        ( id,role_id,permission_id
+        ,create_time)
+        values
+        <foreach collection="perms" item="perm" separator=",">
+            (#{perm.id,jdbcType=BIGINT},#{perm.roleId,jdbcType=BIGINT},#{perm.permissionId,jdbcType=BIGINT}
+            ,now())
+        </foreach>
+
+    </insert>
+    <insert id="addRolePermissionBatch">
+        insert into sys_role_permission
+        (id,role_id,permission_id,create_time)
+        values
+        <foreach collection="rps" item="rp" separator=",">
+            (#{rp.id},#{rp.roleId},#{rp.permissionId},#{rp.createTime})
+        </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ming.stock.pojo.entity.SysRolePermission">
         update sys_role_permission

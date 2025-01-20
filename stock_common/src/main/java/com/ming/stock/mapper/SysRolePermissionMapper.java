@@ -1,6 +1,10 @@
 package com.ming.stock.mapper;
 
 import com.ming.stock.pojo.entity.SysRolePermission;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Set;
 
 /**
 * @author 11519
@@ -22,4 +26,30 @@ public interface SysRolePermissionMapper {
 
     int updateByPrimaryKey(SysRolePermission record);
 
+    int insertPerms(@Param("perms") List<SysRolePermission> list);
+
+    List<Long> getPermsByRoleId(@Param("roleId") String roleId);
+
+    int deleteByRoleId(@Param("id") String id);
+
+    /**
+     * 根据权限id删除关联的角色信息
+     * @param permissionId
+     * @return
+     */
+    int deleteByPermissionId(@Param("permissionId") String permissionId);
+
+    /**
+     * 批量添加用户角色集合
+     * @param rps
+     * @return
+     */
+    int addRolePermissionBatch(@Param("rps") List<SysRolePermission> rps);
+
+    /**
+     * 根据角色id查询对应的权限id集合
+     * @param roleId 角色id
+     * @return
+     */
+    Set<String> getPermissionIdsByRoleId(@Param("roleId") Long roleId);
 }

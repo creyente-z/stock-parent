@@ -30,7 +30,7 @@
         create_where,create_time,update_time
     </sql>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from sys_user
@@ -43,10 +43,69 @@
         from sys_user
         where  username = #{userName}
     </select>
+    <select id="findAll" resultType="com.ming.stock.pojo.entity.SysUser">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_user
+    </select>
+
+    <select id="getUserInfosById" resultType="com.ming.stock.pojo.domain.SysUsers">
+        select id as id,
+               username as username,
+               phone as phone,
+               nick_name as nickName,
+               real_name as realName,
+               sex as sex,
+               status as status,
+               email as email
+        from sys_user
+        where id = #{id}
+    </select>
+    <select id="getUserMsg" resultType="java.util.HashMap">
+        select id, username,  phone, real_name as realName, nick_name as nickName, email, status, sex
+        from sys_user
+        where id = #{userId}
+    </select>
+    <select id="findUserByUserName" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>  from sys_user where username=#{userName}
+    </select>
+    <select id="pageUsers" resultType="com.ming.stock.pojo.domain.UserQueryDomain">
+        SELECT
+        u1.*,
+        u2.username AS createUserName,
+        u3.username AS updateUserName
+        FROM
+        sys_user AS u1
+        LEFT JOIN sys_user AS u2 ON u1.create_id = u2.id
+        LEFT JOIN sys_user AS u3 ON u1.update_id = u3.id
+        <where>
+            AND u1.deleted=1
+            <if test="userName!=null and userName.trim!=''">
+                AND u1.username like concat('%',#{userName},'%')
+            </if>
+            <if test="nickName!=null and nickName.trim!=''">
+                AND u1.nick_name like concat('%',#{nickName},'%')
+            </if>
+            <if test="startTime!=null and startTime.trim!=''">
+                AND u1.create_time >=#{startTime}
+            </if>
+            <if test="endTime!=null and endTime.trim!=''">
+                AND u1.create_time &lt;=#{endTime}
+            </if>
+        </where>
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_user
         where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <delete id="deleteUser">
+        delete
+        from sys_user
+        where id in
+        <foreach collection="userIds" item="userId" separator="," open="(" close=")">
+            #{userId}
+        </foreach>
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ming.stock.pojo.entity.SysUser" useGeneratedKeys="true">
         insert into sys_user
@@ -99,6 +158,17 @@
                 <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
                 <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
         </trim>
+    </insert>
+    <insert id="addUserInfos">
+        insert into sys_user
+        ( id, username, password
+        , phone, real_name, nick_name
+        , email, status, sex
+        , create_where)
+        values ( 1, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
+               , #{phone,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}
+               , #{email,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sex,jdbcType=TINYINT}
+               , #{createWhere,jdbcType=TINYINT})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ming.stock.pojo.entity.SysUser">
         update sys_user
@@ -166,5 +236,18 @@
             create_time =  #{createTime,jdbcType=TIMESTAMP},
             update_time =  #{updateTime,jdbcType=TIMESTAMP}
         where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateInfosById">
+        update sys_user
+        set username     = #{aa.username},
+            phone        = #{aa.phone},
+            real_name    = #{aa.realName},
+            nick_name    = #{aa.nickName},
+            email        = #{aa.email},
+            status       = #{aa.status},
+            sex          = #{aa.sex},
+            create_where = #{c}
+        where id = #{aa.id}
+
     </update>
 </mapper>

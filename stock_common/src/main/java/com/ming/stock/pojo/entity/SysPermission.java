@@ -2,18 +2,27 @@ package com.ming.stock.pojo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 权限表（菜单）
  * @TableName sys_permission
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Accessors(chain = true)
 public class SysPermission implements Serializable {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
 
     /**
      * 菜单权限编码(前端按钮权限标识)
@@ -53,7 +62,7 @@ public class SysPermission implements Serializable {
     /**
      * 父级菜单权限id，pid等于0 为顶层权限
      */
-    private Long pid;
+    private String pid;
 
     /**
      * 排序

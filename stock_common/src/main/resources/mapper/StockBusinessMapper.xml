@@ -24,8 +24,26 @@
         from stock_business
         where  stock_code = #{stockCode,jdbcType=CHAR} 
     </select>
+    <select id="getStockIds" resultType="string">
+        select stock_code from stock_business
+    </select>
+    <select id="getMsg" resultType="com.ming.stock.pojo.domain.CodeSearchDomain">
+        select stock_code as code ,
+               stock_name as name
+        from stock_business
+        where stock_code like concat('%', #{searchStr}, '%')
+    </select>
+    <select id="getStockDescribe" resultType="com.ming.stock.pojo.domain.StockDescribeDomain">
+        select
+            sb.stock_code as code,
+            sb.stock_name as name,
+            sb.block_name as trade,
+            sb.business as business
+        from stock_business as sb
+        where stock_code=#{code}
+    </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <delete id="deleteByPrimaryKey" parameterType="string">
         delete from stock_business
         where  stock_code = #{stockCode,jdbcType=CHAR} 
     </delete>

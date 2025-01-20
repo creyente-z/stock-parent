@@ -2,18 +2,25 @@ package com.ming.stock.pojo.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 角色表
  * @TableName sys_role
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SysRole implements Serializable {
     /**
      * 主键
      */
-    private Long id;
+    private String id;
 
     /**
      * 角色名称

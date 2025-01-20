@@ -1,6 +1,9 @@
 package com.ming.stock.mapper;
 
 import com.ming.stock.pojo.entity.SysRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 11519
@@ -22,4 +25,18 @@ public interface SysRoleMapper {
 
     int updateByPrimaryKey(SysRole record);
 
+    List<SysRole> selectAll();
+
+    int addRole(@Param("role") SysRole role);
+
+    int deleteRole(@Param("roleId") String roleId);
+
+
+    int updataRole(@Param("roleId") Long roleId, @Param("status") Integer status);
+    /**
+     * 根据用户id查询角色信息
+     * @param userId
+     * @return
+     */
+    List<SysRole> getRoleByUserId(@Param("userId") String userId);
 }

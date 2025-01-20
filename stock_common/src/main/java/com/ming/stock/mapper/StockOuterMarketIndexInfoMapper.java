@@ -1,6 +1,11 @@
 package com.ming.stock.mapper;
 
+import com.ming.stock.pojo.domain.OutMarketDomain;
 import com.ming.stock.pojo.entity.StockOuterMarketIndexInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
 * @author 11519
@@ -22,4 +27,5 @@ public interface StockOuterMarketIndexInfoMapper {
 
     int updateByPrimaryKey(StockOuterMarketIndexInfo record);
 
+    List<OutMarketDomain> getOutMarket(@Param("curDate") Date curDate);
 }

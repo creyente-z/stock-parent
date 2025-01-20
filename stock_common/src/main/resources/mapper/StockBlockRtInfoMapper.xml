@@ -28,6 +28,21 @@
         from stock_block_rt_info
         where  id = #{id,jdbcType=BIGINT} 
     </select>
+    <select id="sectorAllLimit" resultType="com.ming.stock.pojo.domain.StockBlockDomain">
+        select
+            sbr.company_num  as companyNum,
+            sbr.trade_amount as tradeAmt,
+            sbr.label        as code,
+            sbr.avg_price    as avgPrice,
+            sbr.block_name   as name,
+            sbr.cur_time     as curDate,
+            sbr.trade_volume as tradeVol,
+            sbr.updown_rate  as updownRate
+        from stock_block_rt_info as sbr
+        where sbr.cur_time=#{timePoint}
+        order by sbr.trade_volume desc
+            limit 10
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_block_rt_info
@@ -68,6 +83,20 @@
                 <if test="tradeVolume != null">#{tradeVolume,jdbcType=DECIMAL},</if>
                 <if test="curTime != null">#{curTime,jdbcType=TIMESTAMP},</if>
         </trim>
+    </insert>
+    <insert id="insertBatch">
+        insert into stock_block_rt_info
+        ( id,label,block_name
+        ,company_num,avg_price,updown_rate
+        ,trade_amount,trade_volume,cur_time
+        )
+        values
+        <foreach collection="list" item="bi" separator=",">
+            (#{bi.id,jdbcType=BIGINT},#{bi.label,jdbcType=VARCHAR},#{bi.blockName,jdbcType=VARCHAR}
+            ,#{bi.companyNum,jdbcType=INTEGER},#{bi.avgPrice,jdbcType=DECIMAL},#{bi.updownRate,jdbcType=DECIMAL}
+            ,#{bi.tradeAmount,jdbcType=BIGINT},#{bi.tradeVolume,jdbcType=DECIMAL},#{bi.curTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ming.stock.pojo.entity.StockBlockRtInfo">
         update stock_block_rt_info

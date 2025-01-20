@@ -22,10 +22,30 @@
         from sys_user_role
         where  id = #{id,jdbcType=BIGINT} 
     </select>
+    <select id="getAllRole" resultType="com.ming.stock.pojo.entity.SysRole">
+        select id,name,description
+             ,status,create_time,update_time
+             ,deleted
+        from sys_role;
+    </select>
+    <select id="getRole" resultType="java.lang.Long">
+        select role_id from sys_user_role where user_id = #{id};
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_user_role
         where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <delete id="delUser">
+        update sys_user
+        set deleted = 0
+        where sys_user.id =
+        <foreach collection="rolesList" item="role" open="(" separator="," close=")">
+            #{role}
+        </foreach>
+    </delete>
+    <delete id="deleteByUserId">
+        delete from sys_user_role where user_id = #{userId}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ming.stock.pojo.entity.SysUserRole" useGeneratedKeys="true">
         insert into sys_user_role
@@ -48,6 +68,17 @@
                 <if test="roleId != null">#{roleId,jdbcType=BIGINT},</if>
                 <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
         </trim>
+    </insert>
+    <insert id="insertUserRole">
+        insert into sys_user_role (user_id,role_id) values (#{userId},#{roleId})
+    </insert>
+    <insert id="insertBatch">
+        insert into sys_user_role
+        ( id,user_id,role_id,create_time) values
+        <foreach collection="urs" item="ur" separator=",">
+            (#{ur.id,jdbcType=BIGINT},#{ur.userId,jdbcType=BIGINT},#{ur.roleId,jdbcType=BIGINT}
+            ,#{ur.createTime,jdbcType=TIMESTAMP})
+        </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ming.stock.pojo.entity.SysUserRole">
         update sys_user_role
