@@ -6,10 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-/**
- * @Author: Ming
- * @Description TODO
- */
+
 @SpringBootApplication
 @MapperScan("com.ming.stock.mapper")
 @EnableConfigurationProperties(TaskThreadPoolInfo.class)

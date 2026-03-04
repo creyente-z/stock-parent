@@ -96,11 +96,12 @@ public class UserController {
 
     /**
      * 更新用户角色信息
+     *
      * @param vo
      * @return
      */
     @PutMapping("/user/roles")
-    public R<String> updateUserOwnRoles(@RequestBody UserOwnRoleReqVo vo){
+    public R<String> updateUserOwnRoles(@RequestBody UserOwnRoleReqVo vo) {
         return userService.updateUserOwnRoles(vo);
     }
 
@@ -127,6 +128,5 @@ public class UserController {
     public R updateInfosById(@RequestBody SysUsers sysUsers) {
         return userService.updateInfosById(sysUsers);
     }
-
 
 }

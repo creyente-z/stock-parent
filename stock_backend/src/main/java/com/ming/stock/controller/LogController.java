@@ -4,11 +4,13 @@ import com.ming.stock.service.LogService;
 import com.ming.stock.vo.req.LogPageReqVo;
 import com.ming.stock.vo.resp.PageResult;
 import com.ming.stock.vo.resp.R;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +23,6 @@ public class LogController {
 
     @Autowired
     private LogService logService;
-
 
     /**
      * 日志信息综合查询
@@ -43,6 +44,20 @@ public class LogController {
     public R<String> deleteBatch(@RequestBody List<Long> logIds){
         return this.logService.deleteBatch(logIds);
     }
+
+
+//    @PostMapping("/create")
+//    public  R addNewReservation (@RequestBody ReservationDomain reservationDomain ){
+//    }
+//
+//    @GetMapping("/todayConferenceRoomAll/{time}")
+//    public R selectTodayConferenceRoomAll (@PathVariable String time){
+//    }
+//
+//    @GetMapping("/detectConflict")
+//    public R detectConflict(@RequestBody ReservationDomainDto  reservationDomainDto){
+//    }
+
 
 
 }

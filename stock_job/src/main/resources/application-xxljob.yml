@@ -4,7 +4,7 @@ xxl:
     job:
         accessToken: default_token
         admin:
-            addresses: http://192.168.179.130:8093/xxl-job-admin
+            addresses: http://192.168.102.142:8093/xxl-job-admin
         executor:
             address: ''
             appname: ming-stock-executor

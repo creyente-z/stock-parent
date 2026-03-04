@@ -266,7 +266,6 @@ public class UserServiceImpl implements UserService {
         return R.ok();
     }
 
-
     @Override
     public R<Map<String, Object>> getRole(String userId) {
         Long id = Long.valueOf(userId);

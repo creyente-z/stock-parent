@@ -56,7 +56,4 @@ public interface UserService {
     R<HashMap<String, Object>> getUserMsg(String userId);
 
     R updateInfosById(SysUsers sysUsers);
-
-
-
 }

@@ -139,10 +139,10 @@ public class TestRestTemplate {
     /**
      * 获取板块数据测试
      */
-    @Test
-    public void testStockSectorRtIndex(){
-        stockTimerTaskService.getStockSectorRtIndex();
-    }
+//    @Test
+//    public void testStockSectorRtIndex(){
+//        stockTimerTaskService.getStockSectorRtIndex();
+//    }
 
 
 }

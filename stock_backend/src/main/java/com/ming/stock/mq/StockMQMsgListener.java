@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-/**
- * @Author: Ming
- * @Description TODO
- */
+
 @Component
 @Slf4j
 public class StockMQMsgListener {

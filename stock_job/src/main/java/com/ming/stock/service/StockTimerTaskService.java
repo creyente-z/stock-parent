@@ -18,5 +18,5 @@ public interface StockTimerTaskService {
     /**
      * 获取板块数据
      */
-    void getStockSectorRtIndex();
+  //  void getStockSectorRtIndex();
 }

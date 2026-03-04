@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: Ming
- * @Description TODO
- */
+
 @Api(value = "/api/quot", tags = {"TODO"})
 @RestController
 @RequestMapping("/api/quot")

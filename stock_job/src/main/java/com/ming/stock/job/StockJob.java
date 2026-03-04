@@ -26,16 +26,16 @@ public class StockJob {
     /**
      * 定义定时任务 采集国内大盘数据
      */
-    @XxlJob("getInnerMarketInfo")
-    public void getStockInnerMarketInfos(){
-        stockTimerTaskService.getInnerMarketInfo();
-    }
+//    @XxlJob("getInnerMarketInfo")
+//    public void getStockInnerMarketInfos(){
+//        stockTimerTaskService.getInnerMarketInfo();
+//    }
 
     /**
      * 定时采集A股数据
      */
-    @XxlJob("getStockInfos")
-    public void getStockInfos(){
-        stockTimerTaskService.getStockRtIndex();;
-    }
+//    @XxlJob("getStockInfos")
+//    public void getStockInfos(){
+//        stockTimerTaskService.getStockRtIndex();;
+//    }
 }
