@@ -1,18 +1,17 @@
+### Maven ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
 *.jar
-logs
+logs/
+*.log
 
 ### Eclipse ###
 .apt_generated
@@ -38,3 +37,35 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Sensitive Configuration Files (包含密码、IP 等敏感信息) ###
+# 本地开发配置文件（可能包含敏感信息）
+**/application-local.yml
+**/application-local.properties
+**/application-dev-local.yml
+**/application-dev-local.properties
+
+# 数据库连接池配置（如果包含密码）
+**/application-datasource.yml
+**/application-datasource.properties
+
+# XXL-Job 配置（包含 token 和内网 IP）
+stock_job/src/main/resources/application-xxljob.yml
+
+# RabbitMQ 配置（包含密码）
+stock_backend/src/main/resources/application-mq.yml
+stock_job/src/main/resources/application-mq.yml
+
+# ShardingSphere 配置（可能包含数据库信息）
+**/application-shading.properties
+
+### Build Output ###
+*.class
+*.war
+*.ear
+
+### Temporary Files ###
+*.tmp
+*.bak
+*.swp
+*~
